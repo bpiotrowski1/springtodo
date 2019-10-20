@@ -2,12 +2,22 @@ package pl.bpiotrowski.springtodo.entity;
 
 import lombok.Data;
 
+import javax.persistence.*;
+
 @Data
+@Entity
+@Table(name = "tasks")
 public class Todo {
-    String id;
-    String description;
-    String finishDate;
-    Priority priority;
-    boolean done;
-    int order;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String description;
+    private String finishDate;
+
+    @Enumerated
+    private Priority priority;
+
+    private boolean done;
+    private int orderPriority;
 }
