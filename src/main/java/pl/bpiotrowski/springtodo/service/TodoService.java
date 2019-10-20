@@ -8,15 +8,12 @@ import pl.bpiotrowski.springtodo.exception.EntityNotFoundException;
 import pl.bpiotrowski.springtodo.repository.TodoRepository;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 public class TodoService {
 
     private final TodoRepository todoRepository;
-    private Map<Long, Todo> tasks = new HashMap<>();
 
     public Collection<Todo> findAll() {
         return todoRepository.findAll();
@@ -45,8 +42,8 @@ public class TodoService {
     }
 
     public Todo update(Todo todo) {
-        delete(todo.getId());
-        create(todo);
-        return null;
+        Todo toUpdate = todo;
+        todoRepository.save(toUpdate);
+        return toUpdate;
     }
 }
