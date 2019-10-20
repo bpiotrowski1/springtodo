@@ -3,9 +3,7 @@ package pl.bpiotrowski.springtodo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.bpiotrowski.springtodo.dto.ErrorDto;
 import pl.bpiotrowski.springtodo.entity.Todo;
-import pl.bpiotrowski.springtodo.exception.EntityNotFoundException;
 import pl.bpiotrowski.springtodo.service.TodoService;
 
 import java.util.Collection;
@@ -24,26 +22,25 @@ public class TodoController {
     }
 
     @GetMapping("/{id}")
-    public Todo find(@PathVariable String id) {
+    public Todo find(@PathVariable Long id) {
         return todoService.find(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Todo create(@RequestBody Todo todo) {
-        todo.setId(UUID.randomUUID().toString());
         todoService.create(todo);
         return todo;
     }
 
     @PutMapping("/{id}")
-    public Todo update(@RequestBody Todo todo, @PathVariable String id) {
+    public Todo update(@RequestBody Todo todo, @PathVariable Long id) {
         todo.setId(id);
         return todoService.update(todo);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable Long id) {
         todoService.delete(id);
     }
 }
