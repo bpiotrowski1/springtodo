@@ -3,11 +3,11 @@ package pl.bpiotrowski.springtodo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.bpiotrowski.springtodo.entity.Priority;
 import pl.bpiotrowski.springtodo.entity.Todo;
 import pl.bpiotrowski.springtodo.service.TodoService;
 
 import java.util.Collection;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,12 +18,17 @@ public class TodoController {
 
     @GetMapping
     public Collection<Todo> findAll() {
-        return todoService.find();
+        return todoService.findAll();
     }
 
     @GetMapping("/{id}")
     public Todo find(@PathVariable Long id) {
         return todoService.find(id);
+    }
+
+    @GetMapping("/priority/{priority}")
+    public Collection<Todo> findAllByPriority(@PathVariable(required = false) Priority priority) {
+        return todoService.findAllByPriority(priority);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

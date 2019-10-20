@@ -2,6 +2,7 @@ package pl.bpiotrowski.springtodo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.bpiotrowski.springtodo.entity.Priority;
 import pl.bpiotrowski.springtodo.entity.Todo;
 import pl.bpiotrowski.springtodo.exception.EntityNotFoundException;
 import pl.bpiotrowski.springtodo.repository.TodoRepository;
@@ -17,31 +18,30 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private Map<Long, Todo> tasks = new HashMap<>();
 
-    public Collection<Todo> find() {
+    public Collection<Todo> findAll() {
         return todoRepository.findAll();
-        //return tasks.values();
     }
 
     public Todo find(Long id) {
-//        Todo todo = tasks.get(id);
-//        if(todo == null) {
-//            throw new EntityNotFoundException(id);
-//        }
-//
-//        return todo;
         return todoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(id)
         );
     }
 
+    public Collection<Todo> findAllByPriority(Priority priority) {
+        if(priority == null) {
+            return todoRepository.findAll();
+        }
+
+        return todoRepository.findAllByPriority(priority);
+    }
+
     public void create(Todo todo) {
         todoRepository.save(todo);
-        //tasks.put(todo.getId(), todo);
     }
 
     public void delete(Long id) {
         todoRepository.deleteById(id);
-        //tasks.remove(id);
     }
 
     public Todo update(Todo todo) {
