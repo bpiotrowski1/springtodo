@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class Todo {
-    String id;
-    String description;
-    String finishDate;
-    Priority priority;
-    boolean done;
-    int order;
+    private String id;
+    private String description;
+    private String finishDate;
+    private Priority priority;
+    private boolean done;
+    private int orderPriority;
 }
