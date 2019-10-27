@@ -1,11 +1,15 @@
 package pl.bpiotrowski.springtodo.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.bpiotrowski.springtodo.dto.TodoDto;
 import pl.bpiotrowski.springtodo.entity.Priority;
 import pl.bpiotrowski.springtodo.entity.Todo;
+import pl.bpiotrowski.springtodo.entity.User;
 import pl.bpiotrowski.springtodo.exception.EntityNotFoundException;
 import pl.bpiotrowski.springtodo.repository.TodoRepository;
+import pl.bpiotrowski.springtodo.repository.UserRepository;
 
 import java.util.Collection;
 
@@ -13,6 +17,7 @@ import java.util.Collection;
 @Service
 public class TodoService {
 
+    private final UserRepository userRepository;
     private final TodoRepository todoRepository;
 
     public Collection<Todo> findAll() {
@@ -31,6 +36,15 @@ public class TodoService {
         }
 
         return todoRepository.findAllByPriority(priority);
+    }
+
+    public void create(TodoDto dto, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
+        Todo entity = new Todo();
+        entity.setDescription(dto.getDescription());
+        entity.setPriority(dto.getPriority());
+        entity.setUser(user);
+        todoRepository.save(entity);
     }
 
     public void create(Todo todo) {

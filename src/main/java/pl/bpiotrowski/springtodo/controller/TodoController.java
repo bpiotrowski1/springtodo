@@ -5,10 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.bpiotrowski.springtodo.dto.TodoDto;
 import pl.bpiotrowski.springtodo.entity.Todo;
 import pl.bpiotrowski.springtodo.service.TodoService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @Controller
@@ -18,7 +20,8 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping
-    public String start(Model model) {
+    public String taskList(Model model, Principal principal) {
+        model.addAttribute("todoForm", new TodoDto());
         model.addAttribute("todoList", todoService.findAll());
         return "todo";
     }
@@ -30,17 +33,18 @@ public class TodoController {
     }
 
     @PostMapping
-    public String addTask(@Valid @ModelAttribute("todo") Todo todo, BindingResult errors) {
-        if(errors.hasErrors()) {
-            return "todo";
-        }
-
-        todoService.create(todo);
+    public String addTask(@Valid TodoDto todoForm, Principal principal) {
+        todoService.create(todoForm, principal.getName());
         return "redirect:/";
     }
 
-    @ModelAttribute
-    public Todo todo() {
-        return new Todo();
-    }
+//    @PostMapping
+//    public String addTask(@Valid @ModelAttribute("todo") Todo todo, BindingResult errors) {
+//        if(errors.hasErrors()) {
+//            return "todo";
+//        }
+//
+//        todoService.create(todo);
+//        return "redirect:/";
+//    }
 }
