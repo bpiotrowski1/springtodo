@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.bpiotrowski.springtodo.entity.Todo;
 import pl.bpiotrowski.springtodo.service.TodoService;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/todo")
@@ -28,7 +30,7 @@ public class TodoController {
     }
 
     @PostMapping
-    public String addTask(@ModelAttribute("todo") Todo todo, BindingResult errors) {
+    public String addTask(@Valid @ModelAttribute("todo") Todo todo, BindingResult errors) {
         if(errors.hasErrors()) {
             return "todo";
         }

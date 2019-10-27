@@ -2,12 +2,12 @@ package pl.bpiotrowski.springtodo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.bpiotrowski.springtodo.entity.Priority;
 import pl.bpiotrowski.springtodo.entity.Todo;
 import pl.bpiotrowski.springtodo.service.TodoService;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @RequiredArgsConstructor
@@ -34,13 +34,13 @@ public class RestTodoController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Todo create(@Validated @RequestBody Todo todo) {
+    public Todo create(@Valid @RequestBody Todo todo) {
         todoService.create(todo);
         return todo;
     }
 
     @PutMapping("/{id}")
-    public Todo update(@RequestBody Todo todo, @PathVariable Long id) {
+    public Todo update(@Valid @RequestBody Todo todo, @PathVariable Long id) {
         todo.setId(id);
         return todoService.update(todo);
     }
