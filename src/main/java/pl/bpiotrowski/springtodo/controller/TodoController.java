@@ -3,10 +3,8 @@ package pl.bpiotrowski.springtodo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.bpiotrowski.springtodo.dto.TodoDto;
-import pl.bpiotrowski.springtodo.entity.Todo;
 import pl.bpiotrowski.springtodo.service.TodoService;
 
 import javax.validation.Valid;
@@ -22,7 +20,7 @@ public class TodoController {
     @GetMapping
     public String taskList(Model model, Principal principal) {
         model.addAttribute("todoForm", new TodoDto());
-        model.addAttribute("todoList", todoService.findAll());
+        model.addAttribute("todoList", todoService.findAllByUserUsername(principal.getName()));
         return "todo";
     }
 

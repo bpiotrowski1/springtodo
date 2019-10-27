@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.bpiotrowski.springtodo.entity.Priority;
 import pl.bpiotrowski.springtodo.entity.Todo;
+import pl.bpiotrowski.springtodo.entity.User;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     List<Todo> findAllByPriority(@Param("priority") Priority priority);
 
     List<Todo> findAllByDescriptionLike(@Param("filter") String filter);
+
+    List<Todo> findAllByUserUsername(String username);
 }

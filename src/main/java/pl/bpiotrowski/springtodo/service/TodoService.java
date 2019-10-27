@@ -12,6 +12,7 @@ import pl.bpiotrowski.springtodo.repository.TodoRepository;
 import pl.bpiotrowski.springtodo.repository.UserRepository;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -22,6 +23,21 @@ public class TodoService {
 
     public Collection<Todo> findAll() {
         return todoRepository.findAll();
+    }
+
+    public Collection<TodoDto> findAllByUserUsername(String username) {
+        return todoRepository.findAllByUserUsername(username).stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+    }
+
+    private TodoDto map(Todo todo) {
+        TodoDto dto = new TodoDto();
+        dto.setDescription(todo.getDescription());
+        dto.setPriority(todo.getPriority());
+        dto.setFinishDate(todo.getFinishDate());
+        dto.setId(todo.getId());
+        return dto;
     }
 
     public Todo find(Long id) {
