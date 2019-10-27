@@ -3,10 +3,7 @@ package pl.bpiotrowski.springtodo.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 @Entity
@@ -20,7 +17,6 @@ public class Todo {
     @Size(min = 3)
     private String description;
 
-//    @Future
     private String finishDate;
 
     @NotNull
