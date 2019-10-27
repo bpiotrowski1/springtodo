@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/todo")
+@RequestMapping("/")
 public class TodoController {
 
     private final TodoService todoService;
@@ -26,7 +26,7 @@ public class TodoController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         todoService.delete(id);
-        return "redirect:/todo";
+        return "redirect:/";
     }
 
     @PostMapping
@@ -36,7 +36,7 @@ public class TodoController {
         }
 
         todoService.create(todo);
-        return "redirect:todo";
+        return "redirect:/";
     }
 
     @ModelAttribute
