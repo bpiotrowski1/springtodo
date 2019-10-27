@@ -13,4 +13,5 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     @Query("select t from Todo t where t.priority=:priority")
     List<Todo> findAllByPriority(@Param("priority") Priority priority);
 
+    List<Todo> findAllByDescriptionLike(@Param("filter") String filter);
 }

@@ -1,51 +1,44 @@
 package pl.bpiotrowski.springtodo.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.bpiotrowski.springtodo.entity.Priority;
 import pl.bpiotrowski.springtodo.entity.Todo;
 import pl.bpiotrowski.springtodo.service.TodoService;
 
-import java.util.Collection;
-
 @RequiredArgsConstructor
-@RestController
+@Controller
 @RequestMapping("/todo")
 public class TodoController {
 
     private final TodoService todoService;
 
     @GetMapping
-    public Collection<Todo> findAll() {
-        return todoService.findAll();
+    public String start(Model model) {
+        model.addAttribute("todoList", todoService.findAll());
+        return "todo";
     }
 
-    @GetMapping("/{id}")
-    public Todo find(@PathVariable Long id) {
-        return todoService.find(id);
-    }
-
-    @GetMapping("/priority/{priority}")
-    public Collection<Todo> findAllByPriority(@PathVariable(required = false) Priority priority) {
-        return todoService.findAllByPriority(priority);
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Todo create(@RequestBody Todo todo) {
-        todoService.create(todo);
-        return todo;
-    }
-
-    @PutMapping("/{id}")
-    public Todo update(@RequestBody Todo todo, @PathVariable Long id) {
-        todo.setId(id);
-        return todoService.update(todo);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
         todoService.delete(id);
+        return "redirect:/todo";
+    }
+
+    @PostMapping
+    public String addTask(@ModelAttribute("todo") Todo todo, BindingResult errors) {
+        if(errors.hasErrors()) {
+            return "todo";
+        }
+
+        todoService.create(todo);
+        return "redirect:todo";
+    }
+
+    @ModelAttribute
+    public Todo todo() {
+        return new Todo();
     }
 }

@@ -42,8 +42,7 @@ public class TodoService {
     }
 
     public Todo update(Todo todo) {
-        Todo toUpdate = todo;
-        todoRepository.save(toUpdate);
-        return toUpdate;
+        todoRepository.save(todo);
+        return todo;
     }
 }
